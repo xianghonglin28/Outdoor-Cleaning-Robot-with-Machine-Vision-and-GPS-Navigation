@@ -235,11 +235,11 @@ ARM Macro Assembler    Page 4
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp.sp --apcs=
 interwork --depend=oh_liteos_demo\los_dispatch.d -ooh_liteos_demo\los_dispatch.
-o -I.\RTE\_OH_LiteOS_Demo -IE:\mdkkkk\ARM\CMSIS\5.8.0\CMSIS\Core\Include -IE:\m
-dkkkk\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include --pre
-define="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 536" --predefine
-="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --predefine="_RTE_ SETA 1" --l
-ist=los_dispatch.lst ..\LiteOS_M\arch\arm\cortex-m4\iar\los_dispatch.S
+o -I.\RTE\_OH_LiteOS_Demo -I"E:\keil5\keil mdk\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\
+Include" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 53
+8" --predefine="_RTE_ SETA 1" --predefine="STM32F407xx SETA 1" --predefine="_RT
+E_ SETA 1" --list=los_dispatch.lst ..\LiteOS_M\arch\arm\cortex-m4\iar\los_dispa
+tch.S
 
 
 

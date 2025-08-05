@@ -2,9 +2,11 @@
 "oh_liteos_demo\startup_stm32f407xx.o"
 "oh_liteos_demo\oled.o"
 "oh_liteos_demo\oledfont.o"
+"oh_liteos_demo\ax_openmv.o"
 "oh_liteos_demo\main.o"
 "oh_liteos_demo\gpio.o"
-"oh_liteos_demo\i2c_1.o"
+"oh_liteos_demo\dma.o"
+"oh_liteos_demo\i2c.o"
 "oh_liteos_demo\usart.o"
 "oh_liteos_demo\stm32f4xx_it.o"
 "oh_liteos_demo\stm32f4xx_hal_msp.o"
@@ -51,6 +53,7 @@
 "oh_liteos_demo\memcpy_s.o"
 "oh_liteos_demo\memset_s.o"
 "oh_liteos_demo\strncpy_s.o"
+"oh_liteos_demo\esp01s.o"
 --library_type=microlib --strict --scatter "OH_LiteOS_Demo\OH_LiteOS_Demo.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
@@ -26,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include <string.h>
 #include "oled.h"
+#include "esp01s.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,49 +62,154 @@ void SystemClock_Config(void);
 #include "stdio.h"
 
 int fputc(int ch, FILE *f)
-{      
-	while((USART1->SR&0X40)==0);
-	USART1->DR = (uint8_t) ch;      
-	return ch;
+{
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+    return ch;
 }
+
 #include "los_task.h"
 //task1
-static void TaskEntry1(void) {
-	while (1)  {
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
-		OLED_Clear();
-		OLED_ShowString(2,2,"watering",12, 0);
-    LOS_Msleep(2000);  
-    
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
-		OLED_Clear();
-		OLED_ShowString(2,2,"^_^",12, 0);
-    LOS_Msleep(1000); 
-		
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-		OLED_Clear();
-		OLED_ShowString(2,2,"cleaning",12, 0);
-    LOS_Msleep(5000); 
-    
 
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-		OLED_Clear();
-		OLED_ShowString(2,2,"^_^",12, 0);
-		OLED_Clear();
-    LOS_Msleep(1000); 
+static void TaskEntry1(void) {
+//		// 订阅主题
+//    if (!MQTT_Subscribe("stm32/clear", 0)) {
+//        printf("[MQTT] Subscription failed!\n");
+//    } else {
+//        printf("[MQTT] Subscribed to stm32/clear\n");
+//    }
+	while (1)  {
 		
-		printf("Task 1 is working....\n");
-	}
-}	
+           MQTT_ProcessReceivedData();
+//		     printf("Current MQTT Payload: %s\n", mqtt_payload_buffer);
+        if (strcmp(mqtt_payload_buffer, "0") == 0) {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // 关洒水
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // 关打扫
+            OLED_Clear();
+            OLED_ShowString(2, 2, "all off", 12, 0);
+					  LOS_Msleep(2);
+					  printf("Current MQTT Payload: %s\n", mqtt_payload_buffer);
+        } else if (strcmp(mqtt_payload_buffer, "1") == 0) {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);   // 开洒水
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET); // 关打扫
+            OLED_Clear();
+            OLED_ShowString(2, 2, "watering", 12, 0);
+					  LOS_Msleep(2);
+					  printf("Current MQTT Payload: %s\n", mqtt_payload_buffer);
+        } else if (strcmp(mqtt_payload_buffer, "2") == 0) {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET); // 关洒水
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);   // 开打扫
+            OLED_Clear();
+            OLED_ShowString(2, 2, "cleaning", 12, 0);
+					  LOS_Msleep(2);
+					printf("Current MQTT Payload: %s\n", mqtt_payload_buffer);
+        } else if (strcmp(mqtt_payload_buffer, "3") == 0) {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);   // 开洒水
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);   // 开打扫
+            OLED_Clear();
+            OLED_ShowString(2, 2, "both on", 12, 0);
+					  LOS_Msleep(2);
+					printf("Current MQTT Payload: %s\n", mqtt_payload_buffer);
+        }
+	
+           } 
+}                	
 
 //task2
 static void TaskEntry2(void) {
 	while (1)  {
 		HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
-		LOS_Msleep(200);
-		printf("Task 2 is working....\n");
+		LOS_Msleep(2);
+//		printf("Task 2 is working....\n");
 	}
-}	
+}
+
+//task3_openmv
+extern int distance, x_coordinate, y_coordinate;
+void sendToESP8266_string(uint8_t *data, uint16_t len);
+uint32_t last_publish = 0;
+static void TaskEntry3(void) {
+     while (1)
+    {
+//			  uint32_t now = HAL_GetTick();
+//			   char openmvJson1[64];
+//			   char openmvJson2[64];
+//			   char openmvJson3[64];
+////			   char test[64];
+//      if (now - last_publish >= 5000) 
+//			 {
+//				 printf("[OpenMV] Distance: %d mm, X: %d, Y: %d\r\n", distance, x_coordinate, y_coordinate);
+//         snprintf(openmvJson1, sizeof(openmvJson1),
+//					 "{\'04\':%d}",
+//                 distance);
+//				 snprintf(openmvJson2, sizeof(openmvJson2),
+//					 "{\'02\':%d}",
+//                 x_coordinate);
+//				 	snprintf(openmvJson3, sizeof(openmvJson3),
+//					 "{\'03\':%d}",
+//                 y_coordinate);
+////				 snprintf(test, sizeof(test), "Hello from OpenHarmony! Tick: %lu", now); 
+//				    // 打印即将发送的数据
+//            printf("[DEBUG] Ready to publish: %s\n", openmvJson1);
+//				    printf("[DEBUG] Ready to publish: %s\n", openmvJson2);
+//            // 发布 MQTT 数据
+//            if (MQTT_Publish("stm32/openmv1", openmvJson1, 0, false)) {
+//                printf("[MQTT] Published OpenMV Data: %s\n", openmvJson1);
+//            } else {
+//                printf("[MQTT] Failed to publish OpenMV Data\n");
+//            }
+//						
+//            if (MQTT_Publish("stm32/openmv2", openmvJson2, 0, false)) {
+//                printf("[MQTT] Published OpenMV Data: %s\n", openmvJson2);
+//            } else {
+//                printf("[MQTT] Failed to publish OpenMV Data\n");
+//            }
+//						 if (MQTT_Publish("stm32/openmv3", openmvJson3, 0, false)) {
+//                printf("[MQTT] Published OpenMV Data: %s\n", openmvJson3);
+//            } else {
+//                printf("[MQTT] Failed to publish OpenMV Data\n");
+//            }
+//        last_publish = now;
+//       }
+//        LOS_Msleep(1000);  // 小睡一会，避免空跑 CPU
+    }
+}
+
+//task4: MQTT处理任务
+static void TaskEntry4(void) {
+    printf("[MQTT] Task4 started\n");
+
+    // 初始化 ESP01s 模块
+    if (!ESP01S_Init()) {
+        printf("[MQTT] ESP01S init failed!\n");
+        while (1) LOS_Msleep(100
+					);
+    }
+    printf("[MQTT] ESP01S init OK\n");
+
+    // 订阅主题
+    if (!MQTT_Subscribe("stm32/clear", 0)) {
+        printf("[MQTT] Subscription failed!\n");
+    } else {
+        printf("[MQTT] Subscribed to stm32/clear\n");
+    }
+
+    // 发布循环
+//    uint32_t last_publish = 0;
+    while (1) {
+//        MQTT_ProcessReceivedData();
+
+//        uint32_t now = HAL_GetTick();
+//        if (now - last_publish >= 5000) {
+//            char msg[64];
+//            snprintf(msg, sizeof(msg), "Hello from OpenHarmony! Tick: %lu", now);
+//            MQTT_Publish("stm32/data", msg, 0, false);
+//            printf("[MQTT] Published: %s\n", msg);
+//            last_publish = now;
+        }      
+
+//        LOS_Msleep(200); // 稍作延时
+    }
+
 /* USER CODE END 0 */
 
 /**
@@ -134,26 +241,30 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_I2C1_Init();
+  MX_USART2_UART_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
 	printf("SYS Init Ok\n");
   LOS_KernelInit();	
 	
-	OLED_Init();                           //OLED��ʼ
-	OLED_Clear();                         //����
-	OLED_ShowString(0,0,"INIT OK",16, 0);    //������ʾ8X16�ַ���
-	LOS_Msleep(10000);
+	OLED_Init();                           //OLED��ʼ
+	OLED_Clear();                         //����
+	OLED_ShowString(0,0,"INIT OK",16, 0);    //������ʾ8X16�ַ���
+	LOS_Msleep(100);
 	OLED_Clear(); 
+	HAL_UART_Receive_IT(&huart2, &c, 1);
 	
-  //start task 1
+//  //start task 1
 	unsigned int ret;
 	unsigned int taskID1;
 	TSK_INIT_PARAM_S task1 = { 0 };
 	task1.pfnTaskEntry = (TSK_ENTRY_FUNC)TaskEntry1;
 	task1.uwStackSize  = 0x1000;
 	task1.pcName       = "TaskEntry1";
-	task1.usTaskPrio   = 5;
+	task1.usTaskPrio   = 6;
 	ret = LOS_TaskCreate(&taskID1, &task1);
 	if (ret != LOS_OK) {
 	  printf("Task1 init Fail!\n");
@@ -166,13 +277,39 @@ int main(void)
 	task2.pfnTaskEntry = (TSK_ENTRY_FUNC)TaskEntry2;
 	task2.uwStackSize  = 0x1000;
 	task2.pcName       = "TaskEntry2";
-	task2.usTaskPrio   = 6;
+	task2.usTaskPrio   = 5;
 	ret = LOS_TaskCreate(&taskID2, &task2);
 	if (ret != LOS_OK) {
 	  printf("Task2 init Fail!\n");
 	  while(1) {
 		}
 	}
+	
+	//start task 3
+	unsigned int taskID3;
+  TSK_INIT_PARAM_S task3 = { 0 };
+  task3.pfnTaskEntry = (TSK_ENTRY_FUNC)TaskEntry3;
+  task3.uwStackSize  = 0x1000;
+  task3.pcName       = "TaskEntry3";
+  task3.usTaskPrio   = 7;
+  ret = LOS_TaskCreate(&taskID3, &task3);
+  if (ret != LOS_OK) {
+    printf("Task3 init Fail!\n");
+    while(1);
+}
+	
+  //start task 4
+  unsigned int taskID4;
+  TSK_INIT_PARAM_S task4 = { 0 };
+  task4.pfnTaskEntry = (TSK_ENTRY_FUNC)TaskEntry4;
+  task4.uwStackSize  = 0x1000;
+  task4.pcName       = "TaskEntry4_MQTT";
+  task4.usTaskPrio   = 6;
+  ret = LOS_TaskCreate(&taskID4, &task4);
+  if (ret != LOS_OK) {
+    printf("Task4 MQTT init Fail!\n");
+    while(1);
+  }
 	
 	//start LOS
 	LOS_Start();
@@ -235,7 +372,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+//void sendToESP8266_string(uint8_t *data, uint16_t len)
+//{
+//    HAL_UART_Transmit(&huart3, data, len, HAL_MAX_DELAY);
 
+//    uint8_t newline = '\n';
+//    HAL_UART_Transmit(&huart3, &newline, 1, HAL_MAX_DELAY);
+//}
 /* USER CODE END 4 */
 
 /**

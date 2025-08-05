@@ -7,7 +7,7 @@ oh_liteos_demo\los_queue.o: ../LiteOS_M/target_config.h
 oh_liteos_demo\los_queue.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 oh_liteos_demo\los_queue.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 oh_liteos_demo\los_queue.o: ../Drivers/CMSIS/Include/core_cm4.h
-oh_liteos_demo\los_queue.o: E:\akeilap\ARM\ARMCC\Bin\..\include\stdint.h
+oh_liteos_demo\los_queue.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\stdint.h
 oh_liteos_demo\los_queue.o: ../Drivers/CMSIS/Include/cmsis_version.h
 oh_liteos_demo\los_queue.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 oh_liteos_demo\los_queue.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -19,7 +19,7 @@ oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rc
 oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 oh_liteos_demo\los_queue.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-oh_liteos_demo\los_queue.o: E:\akeilap\ARM\ARMCC\Bin\..\include\stddef.h
+oh_liteos_demo\los_queue.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\stddef.h
 oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -39,11 +39,11 @@ oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_ti
 oh_liteos_demo\los_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 oh_liteos_demo\los_queue.o: ../LiteOS_M/utils/include/securec.h
 oh_liteos_demo\los_queue.o: ../LiteOS_M/utils/include/securectype.h
-oh_liteos_demo\los_queue.o: E:\akeilap\ARM\ARMCC\Bin\..\include\stdio.h
-oh_liteos_demo\los_queue.o: E:\akeilap\ARM\ARMCC\Bin\..\include\string.h
-oh_liteos_demo\los_queue.o: E:\akeilap\ARM\ARMCC\Bin\..\include\stdlib.h
-oh_liteos_demo\los_queue.o: E:\akeilap\ARM\ARMCC\Bin\..\include\stdarg.h
-oh_liteos_demo\los_queue.o: E:\akeilap\ARM\ARMCC\Bin\..\include\errno.h
+oh_liteos_demo\los_queue.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\stdio.h
+oh_liteos_demo\los_queue.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\string.h
+oh_liteos_demo\los_queue.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\stdlib.h
+oh_liteos_demo\los_queue.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\stdarg.h
+oh_liteos_demo\los_queue.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\errno.h
 oh_liteos_demo\los_queue.o: ../LiteOS_M/utils/los_debug.h
 oh_liteos_demo\los_queue.o: ../LiteOS_M/utils/los_hook.h
 oh_liteos_demo\los_queue.o: ../LiteOS_M/utils/internal/los_hook_types.h

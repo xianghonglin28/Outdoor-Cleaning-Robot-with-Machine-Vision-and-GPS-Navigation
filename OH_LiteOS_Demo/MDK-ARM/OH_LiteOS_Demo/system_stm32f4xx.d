@@ -2,7 +2,7 @@ oh_liteos_demo\system_stm32f4xx.o: ../Core/Src/system_stm32f4xx.c
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/CMSIS/Include/core_cm4.h
-oh_liteos_demo\system_stm32f4xx.o: E:\akeilap\ARM\ARMCC\Bin\..\include\stdint.h
+oh_liteos_demo\system_stm32f4xx.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\stdint.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/CMSIS/Include/cmsis_version.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -14,7 +14,7 @@ oh_liteos_demo\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-oh_liteos_demo\system_stm32f4xx.o: E:\akeilap\ARM\ARMCC\Bin\..\include\stddef.h
+oh_liteos_demo\system_stm32f4xx.o: E:\keil5\keil mdk\ARM\ARMCC\Bin\..\include\stddef.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 oh_liteos_demo\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
